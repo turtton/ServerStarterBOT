@@ -52,6 +52,12 @@ class server_process:
         else:
             return False
 
+    def server_is_None(self):
+        if self.server is None:
+            return True
+        else:
+            return False
+
     def get(self):
         return self.server.poll()
 
@@ -101,32 +107,35 @@ async def on_message(message):
         else:
             await message.channel.send('既に起動中です')
     elif message.content == "r.kill": # 緊急停止用
-        emoji_o = '🇴'
-        kill_ms = await message.channel.send('強制終了しますか？')
-        await kill_ms.add_reaction(emoji_o)
-
-        def check(reaction, user):
-            return user == message.author and str(reaction.emoji) == '🇴'
-
-        try:
-            reaction, user = await client.wait_for('reaction_add', timeout=10.0, check=check)
-        except asyncio.TimeoutError:
-            await kill_ms.edit(content='処理がタイムアウトしました')
+        if server.server_is_None() is True:
+            await message.channel.send('サーバープロセスが存在しません')
         else:
-            await kill_ms.edit(content='強制終了しました')
-            server.kill()
-        await kill_ms.clear_reactions()
+            emoji_o = '🇴'
+            kill_ms = await message.channel.send('強制終了しますか？')
+            await kill_ms.add_reaction(emoji_o)
+
+            def check(reaction, user):
+                return user == message.author and str(reaction.emoji) == '🇴'
+
+            try:
+                reaction, user = await client.wait_for('reaction_add', timeout=10.0, check=check)
+            except asyncio.TimeoutError:
+                await kill_ms.edit(content='処理がタイムアウトしました')
+            else:
+                await kill_ms.edit(content='強制終了しました')
+                server.kill()
+            await kill_ms.clear_reactions()
 
     elif message.content == 'r.stop': # 通常停止用
-        #if running == True:
-        await message.channel.send('終了します')
-        server.stop()
-        #else:
-        #    await message.channel.send('既に終了しています')
+        if server.server_is_running() is True:
+            await message.channel.send('終了します')
+            server.stop()
+        else:
+            await message.channel.send('既に終了しています')
 
     #デバッグ用コマンドのためコメントアウト
     #elif message.content == 'r.get':
-        #await message.channel.send('初期化しました')
+        #await message.channel.send(server.server_is_running())
 
 # Botの起動とDiscordサーバーへの接続
 client.run(TOKEN)
