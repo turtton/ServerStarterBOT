@@ -100,11 +100,6 @@ async def on_message(message):
             #await server_checker.start(server)
         else:
             await message.channel.send('既に起動中です')
-
-    elif message.content == 'r.test': # BOTテスト用
-        test = await message.channel.send('test')
-        if server.server_is_running is True:
-            test.edit('起動中です')
     elif message.content == "r.kill": # 緊急停止用
         emoji_o = '🇴'
         kill_ms = await message.channel.send('強制終了しますか？')
@@ -128,10 +123,6 @@ async def on_message(message):
         server.stop()
         #else:
         #    await message.channel.send('既に終了しています')
-
-    elif message.content == 'r.reset': #runnning変数初期化(通常は使用しないでください)
-        await client.change_presence(activity=idle, status=discord.Status.idle)
-        await message.channel.send('初期化しました')
 
     #デバッグ用コマンドのためコメントアウト
     #elif message.content == 'r.get':
