@@ -1,4 +1,4 @@
 {
-    "token": "YOUR BOT TOKEN",
-    ".bat": "Your Starter File(FULL PATH)"
+    "token": "YOUR BOT's TOKEN",
+    "java": "java  -Xms1024M -Xmx1024M -jar Server.jar nogui"
 }

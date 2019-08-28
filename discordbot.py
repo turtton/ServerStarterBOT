@@ -17,7 +17,7 @@ with open('config.json') as f:
 #TOKEN = open('token.txt').read()
 TOKEN = jsn["token"]
 
-f_name = jsn[".bat"]
+f_name = jsn["java"]
 
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
@@ -34,10 +34,11 @@ class server_process:
         self.server = None
 
     def start(self):
-        self.server = subprocess.Popen(self.f_name)
+        self.server = subprocess.Popen(self.f_name, stdin=subprocess.PIPE)
 
     def stop(self):
-        self.server.send_signal('stop')
+        input_string = "stop"
+        self.server.communicate(input_string.encode())
 
     def kill(self):
         self.server.terminate()
