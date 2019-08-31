@@ -16,8 +16,9 @@ with open('config.json') as f:
 
 #TOKEN = open('token.txt').read()
 TOKEN = jsn["token"]
-
-f_name = jsn["java"]
+f_name = jsn["jarfile"]
+maxMemory = jsn["maxMemory"]
+minMemory = jsn["minMemory"]
 
 # 接続に必要なオブジェクトを生成
 client = discord.Client()
@@ -29,12 +30,12 @@ starting = discord.Game("サーバー起動中")
 
 class server_process:
 
-    def __init__(self, f_name):
-        self.f_name = f_name
+    def __init__(self, f_name, maxMemory,minMemory):
         self.server = None
+        self.command = ["java", "-server",f'-Xms{minMemory}', f'-Xmx{maxMemory}', "-jar", f_name, "nogui"]
 
     def start(self):
-        self.server = subprocess.Popen(self.f_name, stdin=subprocess.PIPE)
+        self.server = subprocess.Popen(self.command, stdin=subprocess.PIPE)
 
     def stop(self):
         input_string = "stop"
@@ -62,7 +63,7 @@ class server_process:
         return self.server.poll()
 
 # サーバー操作用
-server = server_process(f_name)
+server = server_process(f_name, maxMemory, minMemory)
 
 #活動監視
 @tasks.loop(seconds=1)

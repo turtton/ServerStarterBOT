@@ -7,11 +7,13 @@ Python初心者が乗りと勢いで任意のminecraftサーバーファイル�
 
 (一応MCserver用.jarファイルを起動すること前提で書いてます)  
 
+サポート環境: python v.3.7.4 / discord.py v.1.2.3
+
 # 使い方
 
 すべてのファイルをマイクラ鯖の.jarファイルと同じところに置く
 
-config.jsonにBOTのTOKENとjavaの起動コマンドを入力して、
+config.jsonにBOTのTOKENと起動したい.jarファイル名を入力して、
 
 Windowsならバッチファイルを作成して
 

@@ -1,4 +1,6 @@
 {
-    "token": "YOUR BOT's TOKEN",
-    "java": "java  -Xms1024M -Xmx1024M -jar Server.jar nogui"
+    "token": "abcdefghijklmnopqrstuvwxyz1234567890",
+    "jarfile": "servername.jar",
+    "minMemory": "1024M",
+    "maxMemory": "4096M"
 }
